@@ -1,4 +1,4 @@
-#include "exec.h"
+#include "builtin.h"
 
 typedef struct t_info
 {
@@ -56,7 +56,7 @@ char *_old_pwd(t_env *env)
     return (NULL);
 }
 
-char *privous_path(char *old_path, t_env *env)
+char *privous_path(char *old_path)
 {
     if (ft_strcmp(old_path, "-") == 0)
     {
@@ -105,11 +105,11 @@ void update_env(t_info info, t_env *env)
     }
 }
 
-void my_cd(t_cmd node, t_env *env)
+void cd(t_executor *executor, char **args)
 {
     t_info info;
 
-    info.arg_num = len_args(node.args);
+    info.arg_num = len_args(args);
     if (info.arg_num == 0)
     {
         info.path = chdir_home(info.path);
@@ -118,8 +118,8 @@ void my_cd(t_cmd node, t_env *env)
     }
     else if (info.arg_num == 1)
     {
-        if (node.args && node.args->word)
-            info.path = privous_path(node.args->word->str, env);
+        if (args && args[0])
+            info.path = privous_path(args[0], env(executor->env->env));
         if (!info.path)
         {
             ft_putstr_fd("cd: invalid argument\n", STDERR_FILENO);

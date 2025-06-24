@@ -25,11 +25,18 @@ typedef struct t_info1
 }              t_info1;
 
 
-void    remove_variable(t_env *env, char *var)
+void    remove_variable(t_env **env1, char *var)
 {
     t_env   *temp;
+	t_env	*env;
     int     i = 0;
 
+	env = *env1;
+	if (!ft_strcmp(env->var, var))
+	{
+		env1 = env->next;
+		return (free(env));
+	}
     while (env)
     {
         if (!ft_strcmp(env->next->var, var))
@@ -57,24 +64,25 @@ int check_is_exest_var(char *var, t_env *env)
     return (0);
 }
 
-void    my_unset(t_cmd node, t_env *env)
+void    my_unset(char **args, t_env *env)
 {
+    int i;
     t_info1  info1; 
 
-    if (!node.args)
+    i = 0;
+    if (!args || !agrs[0])
     {
         printf("unset: not enough arguments\n");
         return ;
     }
-    info1.temp = node.args;
-    while(info1.temp)
+    while(args[i])
     {
-        if (ft_strchr(info1.temp->word->str, '='))
-            printf("unset: %s: invalid parameter name\n", info1.temp->word->str);
+        if (ft_strchr(agrs[i], '='))
+            printf("unset: %s: invalid parameter name\n", args[i]);
         else
-            if (check_is_exest_var(info1.temp->word->str, env))
-                remove_variable(env, info1.temp->word->str);
-        info1.temp = info1.temp->next;
+            if (check_is_exest_var(args[i], env))
+                remove_variable(&env, agrs[i]);
+        i++;
     } 
 }
 

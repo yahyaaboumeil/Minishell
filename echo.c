@@ -1,28 +1,24 @@
 #include "exec.h"
 
-void my_echo(t_cmd node)
+void my_echo(t_executor *executor, char **args)
 {
-    t_word_list *temp;
     int is_nw;
+    int i;
 
-    temp = node.args;
     is_nw = 0;
-    if (node.args == NULL)
+    i = 0;
+    if (args == NULL)
     {
         printf("\n");
         return;
     }
 
-    if (!ft_strncmp(temp->word->str, "-n", ft_strlen(temp->word->str)))
-    {
-        temp = temp->next;
+    if (!ft_strncmp(args[0], "-n", ft_strlen(args[i++])))
         is_nw = 1;
-    }
     while (temp)
     {
-        printf(temp->word->str);
-        temp = temp->next;
-        if (temp != NULL)
+        printf(agrs[i++]);
+        if (args[i] != NULL)
             printf(" ");
     }
     if (is_nw)

@@ -1,4 +1,4 @@
-#include "exec.h"
+#include "builtin.h"
 
 int len_args(t_word_list *temp)
 {
@@ -40,7 +40,7 @@ int full_arg(t_word_list *temp, char ***arg)
     return 1;
 }
 
-void my_pwd(t_cmd node)
+void my_pwd(t_executor *executor, char **args)
 {
     t_word_list *temp = node.args;
     char **arg = NULL;
